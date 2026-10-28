@@ -48,9 +48,29 @@ Using a fine-tuned **YOLOv11** neural vision engine, MoodMate detects multi-clas
 ---
 
 ## 📐 System Architecture
-┌─────────────────┐ Frames (Base64) ┌─────────────────────────────┐ │ Client Webcam │ ─────────────────────────> │ YOLOv11 Flask Service │ │ (Browser UI) │ <───────────────────────── │ (Port 5001 / last.pt) │ └────────┬────────┘ Bounding Box + Class └─────────────────────────────┘ │ │ Live Telemetry (Valence / Arousal) ▼ ┌─────────────────────────────────────────────────────────────────────────────┐ │ MoodMate React 19 Frontend │ │ ┌───────────────────────┐ ┌───────────────────────┐ ┌───────────────────┐ │ │ │ InteractiveUI │ │ MoodCore3D │ │ SpectrumPanel │ │ │ │ (Tailwind v4 HUD) │ │ (Three.js Particles) │ │ (Affect Telemetry)│ │ │ └───────────────────────┘ └───────────────────────┘ └───────────────────┘ │ └─────────────────────────────────────┬───────────────────────────────────────┘ │ ▼ ┌───────────────────────────────┐ │ Gemini AI Wellness Agent │ │ (Cognitive & Breath Guidance)│ └───────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph Client ["Client Browser (React 19)"]
+        Cam["📷 Client Webcam"]
+        UI["🖥️ InteractiveUI (Tailwind HUD)"]
+        Three["🔮 MoodCore3D (Three.js Visualizer)"]
+        Spec["📊 SpectrumPanel (Valence / Arousal)"]
+    end
 
----
+    subgraph Vision ["Computer Vision Microservice"]
+        YOLO["⚡ YOLOv11 Engine (Flask :5001 / last.pt)"]
+    end
+
+    subgraph GenAI ["Cognitive Wellness Layer"]
+        Gemini["🤖 Google Gemini AI (Wellness & Breathwork)"]
+    end
+
+    Cam -->|"Base64 Frames"| YOLO
+    YOLO -->|"Bounding Box, Emotion & Scores"| UI
+    UI -->|"Arousal & Valence Coordinates"| Three
+    UI -->|"Telemetry Data"| Spec
+    UI -->|"Affect State Context"| Gemini
+```
 
 ## 🎭 Emotion Matrix & Biometrics
 
