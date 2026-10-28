@@ -1,0 +1,6 @@
+{
+  "name": "AI MoodMate",
+  "description": "Next-generation 3D biometric emotion detection, real-time affective spectrum analysis, and interactive wellness platform.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
